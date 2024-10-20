@@ -27,7 +27,17 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              {
+                "input": "src/themes/theme-lara-dark-blue.scss",
+                "bundleName": "lara-dark-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/theme-lara-light-blue.scss",
+                "bundleName": "lara-light-blue",
+                "inject": false
+              }
             ],
             "scripts": [],
             "server": "src/main.server.ts",
