@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ResourceService} from '../../../services/resources/resource.service';
 import {ProductComponent, ProductDTO} from '../product/product.component';
 import {Observable} from 'rxjs';
@@ -12,7 +12,8 @@ import {AsyncPipe} from '@angular/common';
     ProductComponent
   ],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  styleUrl: './product-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnInit {
   private resourceService = inject(ResourceService);

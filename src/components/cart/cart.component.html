@@ -1,0 +1,6 @@
+<div>
+  <h2>cart</h2>
+    @for (item of items(); track item.id) {
+      <app-cart-item [item]="item"/>
+    }
+</div>
