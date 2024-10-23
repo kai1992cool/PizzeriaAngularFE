@@ -9,7 +9,7 @@ import {CartService, OrderItemDTO} from '../../../services/cart/cart.service';
   styleUrl: './cart-item.component.css',
 })
 export class CartItemComponent {
-  protected item = input.required<OrderItemDTO>();
+  public item = input.required<OrderItemDTO>();
   private cartService: CartService = inject(CartService);
 
   protected decreaseItemQuantity(id: number) {

@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ResourceService} from '../../../services/resources/resource.service';
-import {ProductComponent} from '../product/product.component';
+import {ProductItemComponent} from '../product-item/product-item.component';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [
-    ProductComponent
+    ProductItemComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',

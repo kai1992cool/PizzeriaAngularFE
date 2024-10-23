@@ -3,11 +3,12 @@ import {RouterOutlet} from '@angular/router';
 import {ProductListComponent} from '../products/product-list/product-list.component';
 import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
 import {CartComponent} from '../cart/cart.component';
+import {AnonUserCheckoutFormComponent} from '../forms/AnonUserCheckoutForm/anon-user-checkout-form.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ProductListComponent, ThemeSelectorComponent, CartComponent],
+  imports: [RouterOutlet, ProductListComponent, ThemeSelectorComponent, CartComponent, AnonUserCheckoutFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -20,12 +20,12 @@ export type ProductDTO = {
     NgOptimizedImage,
     Button
   ],
-  templateUrl: './product.component.html',
-  styleUrl: './product.component.css',
+  templateUrl: './product-item.component.html',
+  styleUrl: './product-item.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductComponent {
-  protected product = input.required<ProductDTO>();
+export class ProductItemComponent {
+  public product = input.required<ProductDTO>();
   private cartService = inject(CartService);
 
   protected addProductToCart() {

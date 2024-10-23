@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ProductDTO} from '../../components/products/product/product.component';
+import {ProductDTO} from '../../components/products/product-item/product-item.component';
 import {catchError, Observable} from 'rxjs';
 
 @Injectable({
