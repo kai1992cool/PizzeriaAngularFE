@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {CartService, OrderItemDTO} from '../../../services/cart/cart.service';
 
 @Component({
@@ -7,13 +7,12 @@ import {CartService, OrderItemDTO} from '../../../services/cart/cart.service';
   imports: [],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartItemComponent {
-  item = input.required<OrderItemDTO>();
-  protected cartService: CartService = inject(CartService);
+  protected item = input.required<OrderItemDTO>();
+  private cartService: CartService = inject(CartService);
 
-  public deleteItem(id: number) {
+  protected decreaseItemQuantity(id: number) {
     this.cartService.deleteItem(id);
   }
 }

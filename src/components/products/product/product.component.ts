@@ -25,10 +25,10 @@ export type ProductDTO = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent {
-  product = input.required<ProductDTO>();
+  protected product = input.required<ProductDTO>();
   private cartService = inject(CartService);
 
-  public addItem() {
+  protected addProductToCart() {
     this.cartService.addItem({
       name: this.product().name,
       format: this.product().format,

@@ -13,8 +13,6 @@ import {CartItemComponent} from './cart-item/cart-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent {
-  protected cartService: CartService = inject(CartService);
-  items = this.cartService.allItems;
-
-
+  private cartService: CartService = inject(CartService);
+  protected items = this.cartService.allItems;
 }

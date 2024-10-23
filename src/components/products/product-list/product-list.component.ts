@@ -1,25 +1,19 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ResourceService} from '../../../services/resources/resource.service';
-import {ProductComponent, ProductDTO} from '../product/product.component';
-import {Observable} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {ProductComponent} from '../product/product.component';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [
-    AsyncPipe,
     ProductComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent {
   private resourceService = inject(ResourceService);
-  protected products$!: Observable<ProductDTO[]>;
-
-  ngOnInit(): void {
-    this.products$ = this.resourceService.getProducts("pizza");
-  }
+  protected products = toSignal(this.resourceService.getProducts("pizza"), {initialValue: []})
 }

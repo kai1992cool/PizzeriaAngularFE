@@ -10,6 +10,9 @@ import {ThemeService} from '../../services/themes/theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
-  protected themeService = inject(ThemeService);
+  private themeService = inject(ThemeService);
 
+  protected switchTheme(theme: string) {
+    this.themeService.switchTheme(theme);
+  }
 }

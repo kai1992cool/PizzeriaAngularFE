@@ -1,7 +1,5 @@
 <div>
-  @if (products$ |  async; as products) {
-    @for (product of products; track product.id) {
+    @for (product of products(); track product.id) {
       <app-product [product]="product"/>
     }
-  }
 </div>

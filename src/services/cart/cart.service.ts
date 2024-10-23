@@ -9,16 +9,14 @@ export type OrderItemDTO = {
   quantity: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private items = signal<OrderItemDTO[]>([]);
-  allItems = this.items.asReadonly();
+  public allItems = this.items.asReadonly();
 
   public addItem(item:OrderItemDTO) {
-    console.log(item.id)
     const items = this.items();
     const itemIndex = items.findIndex(existingItem => existingItem.id === item.id);
     if (itemIndex !== -1) {
@@ -27,7 +25,6 @@ export class CartService {
     } else {
       this.items.update(prevItems => [...prevItems, item]);
     }
-    console.log(this.items())
   }
 
   public deleteItem(id:number) {
@@ -38,9 +35,8 @@ export class CartService {
       const cartItemsMinusTheItem = items.filter((item) => item.id !== theItem.id);
       this.items.set(cartItemsMinusTheItem);
     } else {
-        items[itemIndex].quantity--;
-        this.items.update(prevItems => [...prevItems]);
+      items[itemIndex].quantity--;
+      this.items.update(prevItems => [...prevItems]);
     }
-    console.log(this.items())
   }
 }
