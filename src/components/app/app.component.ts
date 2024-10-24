@@ -3,7 +3,7 @@ import {RouterOutlet} from '@angular/router';
 import {ProductListComponent} from '../products/product-list/product-list.component';
 import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
 import {CartComponent} from '../cart/cart.component';
-import {AnonUserCheckoutFormComponent} from '../forms/AnonUserCheckoutForm/anon-user-checkout-form.component';
+import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
 
 @Component({
   selector: 'app-root',

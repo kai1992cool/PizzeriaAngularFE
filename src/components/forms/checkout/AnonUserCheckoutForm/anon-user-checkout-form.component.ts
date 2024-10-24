@@ -1,12 +1,13 @@
 import {Component, inject} from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
+  FormBuilder, FormControl,
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
   Validators
 } from '@angular/forms';
+import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -18,7 +19,8 @@ import {
   styleUrl: './anon-user-checkout-form.component.css'
 })
 export class AnonUserCheckoutFormComponent {
-  private formBuilder = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder)
+  protected checkoutFormService = inject(CheckoutFormService)
   anonUserCheckoutFormForm = this.formBuilder.group({
       customer: this.formBuilder.group({
         fullName: ["", {validators: [Validators.required], nonNullable: true, updateOn: "blur"}],
@@ -37,14 +39,14 @@ export class AnonUserCheckoutFormComponent {
     orderDetails: this.formBuilder.group({
         deliverNow: [true, [Validators.required]],
         deliveryTime: ["", validateDeliveryTime],
-        paymentMethod: ["", [Validators.required]],
-        changeRequested: [false],
-        changeToGive: ["", [validateChangeToGive]],
+        paymentMethod: ["Tarjeta", [Validators.required]],
+        changeRequested: new FormControl({value: "F", disabled: true,}, {validators: [validateChangeToGive], nonNullable: true, updateOn: "blur"}),
+        changeToGive: [0, [validateChangeToGive]],
         comment: ["", [Validators.maxLength(250)]],
     })
   })
 
-  public onSubmit(): void {
+  onSubmit(): void {
     console.log(this.anonUserCheckoutFormForm)
   }
 }
