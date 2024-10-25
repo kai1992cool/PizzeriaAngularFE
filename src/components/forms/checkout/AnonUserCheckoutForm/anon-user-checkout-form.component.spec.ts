@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AnonUserCheckoutFormComponent } from './anon-user-checkout-form.component';
+import {AnonUserCheckoutFormComponent} from './anon-user-checkout-form.component';
 
 describe('AnonUserCheckoutFormComponent', () => {
   let component: AnonUserCheckoutFormComponent;

@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
-import { CheckoutFormService } from './checkout-form-service';
+import {TestBed} from '@angular/core/testing';
+import {CheckoutFormService} from './checkout-form.service';
 
 describe('CheckoutFormServiceService', () => {
   let service: CheckoutFormService;

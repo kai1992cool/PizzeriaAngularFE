@@ -1,13 +1,16 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ResourceService} from '../../../services/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {RouterOutlet} from '@angular/router';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [
-    ProductItemComponent
+    ProductItemComponent,
+    RouterOutlet,
+    AsyncPipe
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
@@ -15,5 +18,5 @@ import {toSignal} from '@angular/core/rxjs-interop';
 })
 export class ProductListComponent {
   private resourceService = inject(ResourceService);
-  protected products = toSignal(this.resourceService.getProducts("pizza"), {initialValue: []})
+  protected products$ = this.resourceService.getProducts("pizza");
 }

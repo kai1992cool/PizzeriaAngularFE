@@ -1,6 +1,7 @@
 <div>
   <h2>cart</h2>
-    @for (item of items(); track item.id) {
-      <app-cart-item [item]="item"/>
-    }
+  @for (item of items(); track item.id) {
+    <app-cart-item [item]="item"/>
+  }
+  <button routerLink="/pedido-nuevo">Continuar</button>
 </div>

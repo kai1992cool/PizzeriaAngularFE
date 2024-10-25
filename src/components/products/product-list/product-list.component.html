@@ -1,5 +1,5 @@
 <div>
-    @for (product of products(); track product.id) {
-      <app-product [product]="product"/>
-    }
+  @for (product of products$ | async; track product.id) {
+    <app-product [product]="product"/>
+  }
 </div>

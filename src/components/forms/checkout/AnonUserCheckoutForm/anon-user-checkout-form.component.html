@@ -1,14 +1,14 @@
 <form [formGroup]="anonUserCheckoutFormForm" (ngSubmit)="onSubmit()">
-    <div formGroupName="customer">
-      <label for="fullName">Nombre y Apellido(s)*</label>
-      <input id="fullName" type="text" formControlName="fullName">
+  <div formGroupName="customer">
+    <label for="fullName">Nombre y Apellido(s)*</label>
+    <input id="fullName" type="text" formControlName="fullName">
 
-      <label for="contactNumber">Teléfono de contacto*</label>
-      <input id="contactNumber" type="number" formControlName="contactNumber">
+    <label for="contactNumber">Teléfono de contacto*</label>
+    <input id="contactNumber" type="number" formControlName="contactNumber">
 
-      <label for="email">Correo electrónico*</label>
-      <input id="email" type="email" formControlName="email">
-    </div>
+    <label for="email">Correo electrónico*</label>
+    <input id="email" type="email" formControlName="email">
+  </div>
 
   <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
   <select id="deliveryOption">
@@ -43,10 +43,10 @@
   <div formGroupName="orderDetails">
 
     <label for="deliveryNow">Hora de entrega*</label>
-      <select id="deliveryNow" formControlName="deliverNow">
-        <option [ngValue]="true" (click)="checkoutFormService.hideProgrammedDeliveryTime()">Lo antes posible</option>
-        <option [ngValue]="false" (click)="checkoutFormService.showProgrammedDeliveryTime()">Hora programada</option>
-      </select>
+    <select id="deliveryNow" formControlName="deliverNow">
+      <option [ngValue]="true" (click)="checkoutFormService.hideProgrammedDeliveryTime()">Lo antes posible</option>
+      <option [ngValue]="false" (click)="checkoutFormService.showProgrammedDeliveryTime()">Hora programada</option>
+    </select>
 
     @if (checkoutFormService.programmedDeliveryTimeVisibility) {
       <label for="deliveryTime">Seleccionar hora de entrega*</label>
@@ -65,8 +65,8 @@
     <label for="changeRequested">¿Necesita cambio?*</label>
     <select id="changeRequested" formControlName="changeRequested">
       <option value="V" (click)="checkoutFormService.showChangeRequestInput()">Sí</option>
-      <option value="F" (click)="checkoutFormService.hideChangeRequestInput()"> No</option>
-      </select>
+      <option value="F" (click)="checkoutFormService.hideChangeRequestInput()">No</option>
+    </select>
 
     @if (checkoutFormService.changeRequestInput) {
       <label for="changeToGive">Cambio de*</label>
@@ -76,5 +76,6 @@
     <label for="comment">Observaciones</label>
     <textarea id="comment" formControlName="comment"></textarea>
   </div>
+
   <button type="submit" [disabled]="!anonUserCheckoutFormForm.valid">REALIZAR PEDIDO</button>
 </form>
