@@ -8,11 +8,10 @@ export class ThemeService {
   private document: Document = inject(DOCUMENT);
 
   public switchTheme(theme: string) {
-    let themeLink = this.document.getElementById("app-theme") as HTMLLinkElement;
+    let appTheme = this.document.getElementById("app-theme") as HTMLLinkElement;
 
-    if (themeLink) {
-      console.log(themeLink.href);
-      themeLink.href = theme + ".css";
+    if (appTheme) {
+      appTheme.href = `${theme}.css`;
     }
   }
 }

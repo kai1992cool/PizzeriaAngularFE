@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -41,12 +42,12 @@ export class CheckoutFormService {
     this._programmedDeliveryTimeVisibility = false;
   }
 
-  allowRequestChangeOption() {
-    this._requestChangeOption = true;
+  allowRequestChangeOption(changeRequested: FormControl<string>) {
+    changeRequested.enable();
   }
 
-  disallowRequestChangeOption() {
-    this._requestChangeOption = false;
+  disallowRequestChangeOption(changeRequested: FormControl<string>) {
+    changeRequested.disable();
   }
 
   showChangeRequestInput() {

@@ -1,7 +1,11 @@
-<form [formGroup]="anonUserCheckoutFormForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div formGroupName="customer">
     <label for="fullName">Nombre y Apellido(s)*</label>
     <input id="fullName" type="text" formControlName="fullName">
+
+    @if (!form.controls.customer.controls.fullName.untouched && form.controls.customer.controls.fullName.invalid) {
+      <p>Bad</p>
+    }
 
     <label for="contactNumber">Teléfono de contacto*</label>
     <input id="contactNumber" type="number" formControlName="contactNumber">
@@ -58,8 +62,14 @@
 
     <label for="paymentMethod">Método de pago*</label>
     <select id="paymentMethod" formControlName="paymentMethod">
-      <option value="Tarjeta" (click)="checkoutFormService.disallowRequestChangeOption()">Tarjeta</option>
-      <option value="Efectivo" (click)="checkoutFormService.allowRequestChangeOption()">Efectivo</option>
+      <option value="Tarjeta"
+              (click)="checkoutFormService.disallowRequestChangeOption(form.controls.orderDetails.controls.changeRequested)">
+        Tarjeta
+      </option>
+      <option value="Efectivo"
+              (click)="checkoutFormService.allowRequestChangeOption(form.controls.orderDetails.controls.changeRequested)">
+        Efectivo
+      </option>
     </select>
 
     <label for="changeRequested">¿Necesita cambio?*</label>
@@ -77,5 +87,5 @@
     <textarea id="comment" formControlName="comment"></textarea>
   </div>
 
-  <button type="submit" [disabled]="!anonUserCheckoutFormForm.valid">REALIZAR PEDIDO</button>
+  <button type="submit">REALIZAR PEDIDO</button>
 </form>

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {CartComponent} from '../cart/cart.component';
 
@@ -10,7 +10,8 @@ import {CartComponent} from '../cart/cart.component';
     CartComponent
   ],
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css'
+  styleUrl: './menu.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent {
 

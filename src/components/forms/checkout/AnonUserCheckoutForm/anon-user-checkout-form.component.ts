@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,6 +9,12 @@ import {
   Validators
 } from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
+import {
+  esCharsAndNumbersAndBasicSymbolsRgx,
+  esCharsAndNumbersRegex,
+  esCharsRegex,
+  numbersRegex
+} from '../../../../regex';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -17,29 +23,43 @@ import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-
     ReactiveFormsModule
   ],
   templateUrl: './anon-user-checkout-form.component.html',
-  styleUrl: './anon-user-checkout-form.component.css'
+  styleUrl: './anon-user-checkout-form.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnonUserCheckoutFormComponent {
   private formBuilder = inject(FormBuilder);
   protected checkoutFormService = inject(CheckoutFormService);
-  anonUserCheckoutFormForm = this.formBuilder.group({
+
+  form = this.formBuilder.group({
     customer: this.formBuilder.group({
-      fullName: ["", {validators: [Validators.required], nonNullable: true, updateOn: "blur"}],
-      contactNumber: ["", {
-        validators: [Validators.required, Validators.max(9), Validators.min(9)],
+      fullName: ["", {
+        validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
         nonNullable: true,
         updateOn: "blur"
       }],
-      email: ["", [Validators.required, Validators.email]],
+      contactNumber: ["", {
+        validators: [validateContactNumber],
+        nonNullable: true,
+        updateOn: "blur"
+      }],
+      email: ["", {validators: [Validators.required, Validators.email], nonNullable: true, updateOn: "blur"}],
     }),
     address: this.formBuilder.group({
-      id: [0],
-      street: ["", [Validators.required]],
-      number: [0, [Validators.required]],
-      portal: [""],
-      staircase: [""],
-      floor: [""],
-      door: [""],
+      id: [],
+      street: ["", {
+        validators: [Validators.required, Validators.pattern(esCharsRegex), validateStreet],
+        nonNullable: true,
+        updateOn: "blur"
+      }],
+      number: ["", {
+        validators: [Validators.required, Validators.pattern(numbersRegex), validateStreetNumber],
+        nonNullable: true,
+        updateOn: "blur"
+      }],
+      portal: ["", [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]],
+      staircase: ["", [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]],
+      floor: ["", [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]],
+      door: ["", [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]],
     }),
     orderDetails: this.formBuilder.group({
       deliverNow: [true, [Validators.required]],
@@ -50,15 +70,26 @@ export class AnonUserCheckoutFormComponent {
         nonNullable: true,
         updateOn: "blur"
       }),
-      changeToGive: [0, [validateChangeToGive]],
-      comment: ["", [Validators.maxLength(250)]],
+      changeToGive: ["", [Validators.pattern(numbersRegex), validateChangeToGive]],
+      comment: ["", [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx), Validators.maxLength(250)]],
     })
   });
 
   onSubmit(): void {
-    console.log(this.anonUserCheckoutFormForm);
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+    }
+    console.log(this.form.value);
   }
 }
+
+const validateStreet: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  return null;
+};
+
+const validateStreetNumber: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  return null;
+};
 
 const validateContactNumber: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   return null;
