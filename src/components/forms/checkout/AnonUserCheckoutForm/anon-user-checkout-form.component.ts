@@ -15,12 +15,14 @@ import {
   esCharsRegex,
   numbersRegex
 } from '../../../../regex';
+import {CartComponent} from '../../../cart/cart.component';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CartComponent
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
