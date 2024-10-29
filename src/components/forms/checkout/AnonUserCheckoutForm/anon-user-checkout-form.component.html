@@ -31,8 +31,8 @@
 
         <p>Interior</p>
 
-        <label for="portal">Portal</label>
-        <input id="portal" type="text" formControlName="portal">
+        <label for="gate">Portal</label>
+        <input id="gate" type="text" formControlName="gate">
 
         <label for="staircase">Escalera</label>
         <input id="staircase" type="text" formControlName="staircase">
@@ -47,10 +47,12 @@
 
     <div formGroupName="orderDetails">
 
-      <label for="deliveryNow">Hora de entrega*</label>
-      <select id="deliveryNow" formControlName="deliverNow">
-        <option [ngValue]="true" (click)="checkoutFormService.hideProgrammedDeliveryTime()">Lo antes posible</option>
-        <option [ngValue]="false" (click)="checkoutFormService.showProgrammedDeliveryTime()">Hora programada</option>
+      <label for="deliveryChoice">Hora de entrega*</label>
+      <select id="deliveryChoice" formControlName="deliveryChoice">
+        <option value="Lo antes posible" (click)="checkoutFormService.hideProgrammedDeliveryTime()">Lo antes posible
+        </option>
+        <option value="Hora programada" (click)="checkoutFormService.showProgrammedDeliveryTime()">Hora programada
+        </option>
       </select>
 
       @if (checkoutFormService.programmedDeliveryTimeVisibility) {
@@ -64,24 +66,24 @@
       <label for="paymentMethod">Método de pago*</label>
       <select id="paymentMethod" formControlName="paymentMethod">
         <option value="Tarjeta"
-                (click)="checkoutFormService.disallowRequestChangeOption(form.controls.orderDetails.controls.changeRequested)">
+                (click)="checkoutFormService.disallowRequestChangeOption(form.controls.orderDetails.controls.changeRequestChoice)">
           Tarjeta
         </option>
         <option value="Efectivo"
-                (click)="checkoutFormService.allowRequestChangeOption(form.controls.orderDetails.controls.changeRequested)">
+                (click)="checkoutFormService.allowRequestChangeOption(form.controls.orderDetails.controls.changeRequestChoice)">
           Efectivo
         </option>
       </select>
 
-      <label for="changeRequested">¿Necesita cambio?*</label>
-      <select id="changeRequested" formControlName="changeRequested">
+      <label for="changeRequestChoice">¿Necesita cambio?*</label>
+      <select id="changeRequestChoice" formControlName="changeRequestChoice">
         <option value="V" (click)="checkoutFormService.showChangeRequestInput()">Sí</option>
         <option value="F" (click)="checkoutFormService.hideChangeRequestInput()">No</option>
       </select>
 
       @if (checkoutFormService.changeRequestInput) {
-        <label for="changeToGive">Cambio de*</label>
-        <input id="changeToGive" type="number" formControlName="changeToGive">
+        <label for="billToChange">Cambio de*</label>
+        <input id="billToChange" type="number" formControlName="billToChange">
       }
 
       <label for="comment">Observaciones</label>
