@@ -1,7 +1,8 @@
 <div>
-  {{item().name}}
-  {{item().format}}
-  {{item().quantity}}
-  {{item().price}}
-  <button (click)="decreaseItemQuantity(item().id)" type="button">Delete</button>
+  {{ item().name }}
+  {{ item().format }}
+  {{ item().quantity }}
+  <span>{{ item().price }}€</span>
+  <button (click)="increaseItemQuantity(item().id)" type="button">+</button>
+  <button (click)="decreaseItemQuantity(item().id)" type="button">-</button>
 </div>

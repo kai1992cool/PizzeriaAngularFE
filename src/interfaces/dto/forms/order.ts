@@ -10,9 +10,8 @@ export type AddressFormData = {
 
 export type OrderDetailsFormData = {
   id: number | null;
-  deliveryChoice: string;
+  deliveryTime: string;
   paymentMethod: string;
-  deliveryTime: string | null;
   changeRequestChoice: string | null;
   billToChange: number | null;
   comment: string | null;

@@ -16,5 +16,10 @@ import {RouterLink} from '@angular/router';
 })
 export class CartComponent {
   private cartService: CartService = inject(CartService);
-  protected items = this.cartService.allItems;
+  items = this.cartService.cartItems;
+  quantity = this.cartService.cartQuantity;
+  total = this.cartService.cartTotal;
+  totalAfterOffers = this.cartService.cartTotalAfterOffers;
+  threeForTwoOffers = this.cartService.cartThreeForTwoOffers;
+  secondForHalfPriceOffer = this.cartService.cartSecondHalfPriceOffer;
 }

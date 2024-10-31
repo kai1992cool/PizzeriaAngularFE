@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl, FormGroup,
+  FormControl,
+  FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
@@ -16,6 +16,8 @@ import {
   numbersRegex
 } from '../../../../regex';
 import {CartComponent} from '../../../cart/cart.component';
+import {CartService} from '../../../../services/cart/cart.service';
+import {response} from 'express';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -30,6 +32,8 @@ import {CartComponent} from '../../../cart/cart.component';
 })
 export class AnonUserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
+  private cartService = inject(CartService);
+  private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
     customer: new FormGroup({
@@ -71,12 +75,11 @@ export class AnonUserCheckoutFormComponent {
       door: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)])
     }),
     orderDetails: new FormGroup({
-      deliveryChoice: new FormControl("Lo antes posible", {
+      deliveryTime: new FormControl("Lo antes posible", {
         validators: [Validators.required],
         nonNullable: true,
         updateOn: "blur"
       }),
-      deliveryTime: new FormControl<string | null>(null, validateDeliveryTime),
       paymentMethod: new FormControl("Tarjeta", {
         validators: [Validators.required],
         nonNullable: true,
@@ -93,41 +96,52 @@ export class AnonUserCheckoutFormComponent {
   });
 
   onSubmit(): void {
-    console.log(this.form.get("customer.fullName")?.value);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-    } else {
-      this.checkoutFormService.createNewAnonOrder({
-        anonCustomerName: this.form.get("customer.fullName")!.value,
-        anonCustomerContactNumber: Number(this.form.get("customer.contactNumber")!.value),
-        anonCustomerEmail: this.form.get("customer.email")!.value,
-        address: {
-          id: this.form.get("address.id")!.value,
-          street: this.form.get("address.street")!.value,
-          streetNr: Number(this.form.get("address.number")!.value),
-          gate: this.form.get("address.gate")!.value,
-          staircase: this.form.get("address.staircase")!.value,
-          floor: this.form.get("address.floor")!.value,
-          door: this.form.get("address.door")!.value,
-        },
-        orderDetails: {
-          id: this.form.get("orderDetails.id")!.value,
-          deliveryChoice: this.form.get("orderDetails.deliveryChoice")!.value,
-          paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
-          deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
-          changeRequestChoice: this.form.get("orderDetails.changeRequestChoice")!.value,
-          billToChange: this.form.get("orderDetails.billToChange")!.value,
-          comment: this.form.get("orderDetails.comment")!.value,
-        },
-        cart: {
-          id: 0,
-          orderItems: [],
-          totalCost: 0,
-          totalCostOffers: 0,
-          totalQuantity: 0
-        }
-      });
+      return;
     }
+
+    console.log(this.form.value);
+    const newAnonOrderSub = this.checkoutFormService.createNewAnonOrder({
+      anonCustomerName: this.form.get("customer.fullName")!.value,
+      anonCustomerContactNumber: Number(this.form.get("customer.contactNumber")!.value),
+      anonCustomerEmail: this.form.get("customer.email")!.value,
+      address: {
+        id: null,
+        street: this.form.get("address.street")!.value,
+        streetNr: Number(this.form.get("address.number")!.value),
+        gate: this.form.get("address.gate")!.value === null ? null : this.form.get("address.gate")!.value,
+        staircase: this.form.get("address.staircase")!.value === null ? null : this.form.get("address.staircase")!.value,
+        floor: this.form.get("address.floor")!.value === null ? null : this.form.get("address.floor")!.value,
+        door: this.form.get("address.door")!.value === null ? null : this.form.get("address.door")!.value,
+      },
+      orderDetails: {
+        id: null,
+        deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
+        paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
+        changeRequestChoice: this.form.get("orderDetails.changeRequestChoice")!.value,
+        billToChange: this.form.get("orderDetails.billToChange")!.value === null ? null : this.form.get("orderDetails.billToChange")!.value,
+        comment: this.form.get("orderDetails.comment")!.value === null ? null : this.form.get("orderDetails.comment")!.value,
+      },
+      cart: {
+        id: null,
+        orderItems: this.cartService.cartItems(),
+        totalCost: this.cartService.cartTotal(),
+        totalCostOffers: this.cartService.cartTotalAfterOffers(),
+        totalQuantity: this.cartService.cartQuantity(),
+      }
+    }).subscribe({
+      next: response => {
+        console.log(response);
+      },
+      error: error => {
+        console.log("Component" + error);
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      newAnonOrderSub.unsubscribe();
+    });
   }
 }
 

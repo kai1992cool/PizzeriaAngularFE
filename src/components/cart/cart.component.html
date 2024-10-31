@@ -3,5 +3,21 @@
   @for (item of items(); track item.id) {
     <app-cart-item [item]="item"/>
   }
+
+  <p>Total: {{ total().toFixed(2) }}€</p>
+
+  @if (threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) {
+    <p>Total con ofertas: {{ totalAfterOffers().toFixed(2) }}€</p>
+    <p>Ofertas aplicadas:</p>
+
+    @if (secondForHalfPriceOffer() != 0) {
+      <p>La segunda al 50%</p>
+    }
+
+    @if (threeForTwoOffers() != 0) {
+      <p>El 3 por 2: {{ threeForTwoOffers() }}x</p>
+    }
+  }
+
   <button routerLink="/pedido-nuevo">Continuar</button>
 </div>

@@ -12,7 +12,11 @@ export class CartItemComponent {
   public item = input.required<OrderItemDTO>();
   private cartService: CartService = inject(CartService);
 
-  protected decreaseItemQuantity(id: number) {
-    this.cartService.deleteItem(id);
+  decreaseItemQuantity(id: number) {
+    this.cartService.decreaseQuantity(id);
+  }
+
+  increaseItemQuantity(id: number) {
+    this.cartService.increaseQuantity(id);
   }
 }
