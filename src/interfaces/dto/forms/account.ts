@@ -1,37 +1,36 @@
 export type RegisterForm = {
-    name: string | null;
-    email: string | null,
-    matchingEmail: string | null,
-    password: string | null,
-    matchingPassword: string | null,
+  email: string
+  matchingEmail: string,
+  password: string
+  matchingPassword: string,
 }
 
 export type LoginForm = {
-    email: string | null;
-    password: string | null;
+  email: string
+  password: string;
 }
 
 export type NameChangeForm = {
-    name: string | null;
-    password: string | null;
+  name: string
+  password: string;
 }
 
 export type EmailChangeForm = {
-    email: string | null;
-    password: string | null;
+  email: string
+  password: string;
 }
 
 export type ContactNumberChangeForm = {
-    contactNumber: number | null;
-    password: string | null;
+  contactNumber: number;
+  password: string;
 }
 
 export type PasswordChangeForm = {
-    currentPassword: string | null;
-    newPassword: string | null;
-    matchingNewPassword: string | null;
+  currentPassword: string;
+  newPassword: string;
+  matchingNewPassword: string;
 }
 
 export type AccountDeleteForm = {
-    password: string | null;
+  password: string;
 }

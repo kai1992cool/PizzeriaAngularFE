@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 import {
+  emailRgx,
   esCharsAndNumbersAndBasicSymbolsRgx,
   esCharsAndNumbersRegex,
   esCharsRegex,
@@ -17,7 +18,6 @@ import {
 } from '../../../../regex';
 import {CartComponent} from '../../../cart/cart.component';
 import {CartService} from '../../../../services/cart/cart.service';
-import {response} from 'express';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -48,23 +48,21 @@ export class AnonUserCheckoutFormComponent {
         updateOn: "blur"
       }),
       email: new FormControl("", {
-        validators: [Validators.required, Validators.email],
+        validators: [Validators.pattern(emailRgx)],
         nonNullable: true,
         updateOn: "blur"
       })
     }),
     address: new FormGroup({
       id: new FormControl<number | null>(null),
-      street: new FormControl(
-        "", {
-          validators: [Validators.required, Validators.pattern(esCharsRegex), validateStreet],
+      street: new FormControl("", {
+          validators: [Validators.required, Validators.pattern(esCharsRegex)],
           nonNullable: true,
           updateOn: "blur"
         }
       ),
-      number: new FormControl(
-        "", {
-          validators: [Validators.required, Validators.pattern(numbersRegex), validateStreetNumber],
+      number: new FormControl("", {
+          validators: [Validators.required, Validators.pattern(numbersRegex)],
           nonNullable: true,
           updateOn: "blur"
         }
@@ -86,20 +84,30 @@ export class AnonUserCheckoutFormComponent {
         updateOn: "blur"
       }),
       changeRequestChoice: new FormControl({value: "F", disabled: true}, {
-        validators: [validateChangeToGive],
         nonNullable: true,
+      }),
+      billToChange: new FormControl<number | null>(null, {
+        validators: [Validators.pattern(numbersRegex)],
         updateOn: "blur"
       }),
-      billToChange: new FormControl<number | null>(null, [Validators.pattern(numbersRegex), validateChangeToGive]),
       comment: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx), Validators.maxLength(250)])
     })
-  });
+  }, {validators: [validateStreet, validateStreetNumber, validateChangeToGive]});
 
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      const controls = this.form.controls;
+
+      Object.keys(controls).forEach(control => {
+        console.log(this.form.get(control)?.value);
+        console.log(this.form.get(control)?.status);
+        console.log(this.form.get(control)?.valid);
+      });
+
       return;
     }
+
 
     console.log(this.form.value);
     const newAnonOrderSub = this.checkoutFormService.createNewAnonOrder({
@@ -171,14 +179,7 @@ const validateDeliveryTime: ValidatorFn = (control: AbstractControl): Validation
 };
 
 const validateChangeToGive: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const changeRequested = control.get("changeRequested");
-
-  if (changeRequested) {
-    const changeToGive = control.get("changeToGive");
-    if (changeToGive && (changeToGive.value === 0 || changeToGive.value < 0)) {
-      return {valid: false};
-    }
-  }
-
-  return null;
+  const changeRequested = control.get("changeRequestChoice");
+  const billToChange = control.get("billToChange");
+  return changeRequested && changeRequested.value === "V" && billToChange && billToChange.value <= 0 ? {valid: false} : null;
 };
