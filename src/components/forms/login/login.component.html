@@ -1,15 +1,15 @@
 <div>
   <p>Iniciar sesión</p>
-  <form>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <label>Correo electrónico</label>
-    <input/>
+    <input id="email" type="email" formControlName="email"/>
 
     <label>Contraseña</label>
-    <input/>
+    <input id="password" type="email" formControlName="password"/>
 
+    <button type="submit">Continuar</button>
   </form>
-  <button type="submit">Continuar</button>
 
   <p>¿Aún no tienes cuenta?</p>
 
