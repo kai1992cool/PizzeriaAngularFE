@@ -4,6 +4,7 @@ import {PaginatorModule} from 'primeng/paginator';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginService} from '../../../services/login/login.service';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ import {LoginService} from '../../../services/login/login.service';
 })
 export class LoginComponent {
   private loginService = inject(LoginService);
+  private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
@@ -50,9 +52,26 @@ export class LoginComponent {
       },
       error: error => {
         console.log("error: ", error.error);
+      },
+      complete: () => {
+        this.authService.setUserCredentials(getCookie("idToken"));
       }
     });
 
     this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 }
+
+const getCookie = (key: string) => {
+  const b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
+
+  if (b !== null) {
+    if (b.length === 0) {
+      return "";
+    } else {
+      return b.pop()!;
+    }
+  }
+
+  return "";
+};
