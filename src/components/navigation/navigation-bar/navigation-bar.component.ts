@@ -1,7 +1,8 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ThemeSelectorComponent} from '../../theme-selector/theme-selector.component';
 import {CardModule} from 'primeng/card';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -16,5 +17,6 @@ import {CardModule} from 'primeng/card';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationBarComponent {
-
+  private authService = inject(AuthService);
+  isAuthenticated = this.authService.isAuthenticated();
 }

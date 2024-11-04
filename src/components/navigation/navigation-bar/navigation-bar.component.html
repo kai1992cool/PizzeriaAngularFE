@@ -5,6 +5,12 @@
   <button>Pastas</button>
   <button>Postres</button>
   <button>Bebidas</button>
-  <button routerLink="iniciar-sesion">Inicia Sesión</button>
+
+  @if (!isAuthenticated) {
+    <button routerLink="iniciar-sesion">Inicia Sesión</button>
+  } @else {
+    <button routerLink="usuario/perfil">Mi cuenta</button>
+  }
+
   <app-theme-selector/>
 </div>

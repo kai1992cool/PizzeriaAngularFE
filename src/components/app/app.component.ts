@@ -10,7 +10,8 @@ import {FooterComponent} from '../footer/footer.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ProductListComponent, ThemeSelectorComponent, CartComponent, AnonUserCheckoutFormComponent, RouterOutlet, NavigationBarComponent, FooterComponent],
+  imports: [RouterOutlet, ProductListComponent, ThemeSelectorComponent, CartComponent,
+    AnonUserCheckoutFormComponent, RouterOutlet, NavigationBarComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

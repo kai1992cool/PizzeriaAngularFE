@@ -5,13 +5,14 @@ import {MenuComponent} from '../menu/menu.component';
 import {HomeComponent} from '../home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
 import {LoginComponent} from '../forms/login/login.component';
+import {NotFoundComponent} from '../wildcard-routes/not-found/not-found.component';
+import {ForibiddenComponent} from '../wildcard-routes/forbidden/foribidden.component';
+import {UserHomeComponent} from '../user/home/user-home.component';
+import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../user/profile/profile.component';
 import {OrderListComponent} from '../user/order-list/order-list.component';
 import {OrderItemComponent} from '../user/order-item/order-item.component';
 import {SettingsComponent} from '../user/settings/settings.component';
-import {userCredentialsGuard} from '../user/guard/user-credentials-guard';
-import {NotFoundComponent} from '../wildcard-routes/not-found/not-found.component';
-import {ForibiddenComponent} from '../wildcard-routes/forbidden/foribidden.component';
 
 export const routes: Routes = [
   {
@@ -31,25 +32,29 @@ export const routes: Routes = [
     ]
   },
   {
-    path: "perfil",
-    component: ProfileComponent,
-    title: "Tu Perfil",
-    canMatch: [userCredentialsGuard],
+    path: "usuario",
+    component: UserHomeComponent,
+    canMatch: [userCredentialsGuardGuard],
     children: [
+      {
+        path: "perfil",
+        component: ProfileComponent,
+        title: "Tu perfil",
+      },
       {
         path: "pedidos",
         component: OrderListComponent,
         title: "Tus pedidos",
         children: [
           {
-            path: "pedidos/:id",
+            path: ":id",
             component: OrderItemComponent,
             title: "Pedido"
           }
         ]
       },
       {
-        path: "configuration",
+        path: "configuracion",
         component: SettingsComponent,
         title: "Configuracion",
       }
