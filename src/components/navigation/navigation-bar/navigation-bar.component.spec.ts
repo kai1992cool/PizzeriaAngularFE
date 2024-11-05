@@ -10,7 +10,7 @@ describe('NavigationBarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [NavigationBarComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(NavigationBarComponent);
     component = fixture.componentInstance;

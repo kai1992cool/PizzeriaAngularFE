@@ -18,5 +18,5 @@ import {AuthService} from '../../../services/auth/auth.service';
 })
 export class NavigationBarComponent {
   private authService = inject(AuthService);
-  isAuthenticated = this.authService.isAuthenticated();
+  isAuthenticated = this.authService.getIsAuthenticated();
 }

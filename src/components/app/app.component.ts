@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {ProductListComponent} from '../products/product-list/product-list.component';
 import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
@@ -13,7 +13,8 @@ import {FooterComponent} from '../footer/footer.component';
   imports: [RouterOutlet, ProductListComponent, ThemeSelectorComponent, CartComponent,
     AnonUserCheckoutFormComponent, RouterOutlet, NavigationBarComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   title = 'PizzeriaAngularFE';
