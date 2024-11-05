@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
         const cookieService = inject(SsrCookieService);
         const authService = inject(AuthService);
 
-        return () => new Promise((resolve, reject) => {
+        return () => new Promise((resolve) => {
           const isAuthenticated = cookieService.check("idToken");
           console.log(isAuthenticated);
 
